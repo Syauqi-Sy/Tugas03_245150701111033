@@ -17,15 +17,15 @@ class PengirimanBarang {
         berat = weight;
         biayaDasar = basePrice;
     }
-    void hitungOngkir(double diskonPersen) {
-        biayaDasar -= (biayaDasar * diskonPersen / 100);
+    double hitungOngkir(double diskonPersen) {
+        return biayaDasar -= (biayaDasar * diskonPersen / 100);
     }
-    void hitungOngkir(double diskonPersen, double biayaTambahan) {
-        biayaDasar = (biayaDasar - (biayaDasar * diskonPersen / 100)) + biayaTambahan;
+    double hitungOngkir(double diskonPersen, double biayaTambahan) {
+        return biayaDasar = (biayaDasar - (biayaDasar * diskonPersen / 100)) + biayaTambahan;
     }
     void hitungOngkir(int jarak) {
-        double surcharge;
-        double disc;
+        double surcharge = 0;
+        double disc = 0;
         jarakPaket = jarak;
         System.out.println("Jarak pengiriman               : " + jarakPaket + " km");
         if (jarak > 50) {
@@ -33,7 +33,7 @@ class PengirimanBarang {
             biayaDasar += surcharge;
             System.out.println("Biaya tambahan (jarak > 50 km) : Rp" + surcharge);
         } else if (jarak <= 0) {
-            System.out.println("Error: Jarak tidak boleh sama dengan atau kurang dari 0.");
+            System.out.println("Error: Jarak tidak boleh sama dengan atau lebih dari 0.");
         } else {
             disc = biayaDasar * 5/100;
             biayaDasar -= disc;
@@ -62,12 +62,21 @@ public class ekspedisi {
         double berat = input.nextDouble();
         System.out.print("Masukkan biaya pengiriman        : ");
         double biaya = input.nextDouble();
+        System.out.print("Masukkan diskon yang valid       : ");
+        double dsc = input.nextDouble();
+        System.out.print("Masukkan biaya tambah (opsional) : ");
+        double plus = input.nextDouble();
         System.out.print("Masukkan jarak pengiriman        : ");
         int jarak = input.nextInt();
         System.out.println("");
         input.close();
         PengirimanBarang paket1 = new PengirimanBarang(pengirim, alamat, berat, biaya);
         paket1.displayInfoLogistik();
+        if (plus != 0) {
+            paket1.hitungOngkir(dsc, plus);
+        } else {
+            paket1.hitungOngkir(dsc);
+        }
         paket1.hitungOngkir(jarak);
     }
 }
